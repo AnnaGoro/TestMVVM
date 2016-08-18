@@ -22,7 +22,7 @@ class TestViewModel {
             textToShow = "not a number"
        
             self.callback?(colorToShow, textToShow) // alert
-            notify()
+          //  notify()
             print("TestViewModel textChanged not a number")
           
             return
@@ -39,7 +39,7 @@ class TestViewModel {
         }
        
         self.callback?(colorToShow, textToShow) // alert
-        notify ()
+       // notify ()
         print("TestViewModel textChanged")
     
     }
@@ -49,7 +49,7 @@ class TestViewModel {
         colorToShow = UIColor.yellowColor()  // handle
         textToShow = "You shook device"
         self.callback?(colorToShow, textToShow)
-        notify ()
+       // notify ()
        
         
     }

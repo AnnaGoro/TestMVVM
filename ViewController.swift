@@ -21,6 +21,7 @@ class ViewController: UIViewController, UITextFieldDelegate  {
         super.viewDidLoad()
         inputText.delegate = self
         inputText.tag = 1
+        /*
       _ = NSNotificationCenter.defaultCenter().addObserverForName("Trololo",
                                          object: nil,
                                          queue: nil,
@@ -31,7 +32,7 @@ class ViewController: UIViewController, UITextFieldDelegate  {
                                             print("changing state - observer")
                                             
         })
-        
+        */
        //sign in
        viewModel.callback = { [unowned self] color, text in   //react3
             self.colorView.backgroundColor = color
@@ -45,7 +46,7 @@ class ViewController: UIViewController, UITextFieldDelegate  {
     func changeState () {
       NumberLabel.text = viewModel.textToShow
       colorView.backgroundColor = viewModel.colorToShow
-      print ("printNotification")
+      print ("changeState")
         
         
     }
@@ -71,8 +72,7 @@ class ViewController: UIViewController, UITextFieldDelegate  {
         //inputText.resignFirstResponder()
         if inputText.tag == 1 {
             testNumber ()
-            self.NumberLabel.text = self.viewModel.textToShow
-            self.colorView.backgroundColor = self.viewModel.colorToShow
+            //changeState ()
             
         }
 
