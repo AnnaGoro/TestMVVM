@@ -46,7 +46,7 @@ class TestViewModel {
     
     func userShookDevice() {
         
-        colorToShow = UIColor.yellowColor();  // handle
+        colorToShow = UIColor.yellowColor()  // handle
         textToShow = "You shook device"
         self.callback?(colorToShow, textToShow)
         notify ()

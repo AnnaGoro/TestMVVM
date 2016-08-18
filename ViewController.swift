@@ -9,17 +9,18 @@
 import UIKit
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate  {
 
-   @objc  @IBOutlet weak var inputText: UITextField!
-   @objc  @IBOutlet weak var colorView: UIView!
-   @objc  @IBOutlet weak var NumberLabel:  UILabel!
+     @IBOutlet weak var inputText: UITextField!
+     @IBOutlet weak var colorView: UIView!
+     @IBOutlet weak var NumberLabel:  UILabel!
    
     private let viewModel: TestViewModel = TestViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        inputText.delegate = self
+        inputText.tag = 1
       _ = NSNotificationCenter.defaultCenter().addObserverForName("Trololo",
                                          object: nil,
                                          queue: nil,
@@ -48,7 +49,36 @@ class ViewController: UIViewController {
         
         
     }
+    
+   // func textFieldShouldReturn(textField: UITextField) -> Bool {
+        // User finished typing (hit return): hide the keyboard.
+       // textField.resignFirstResponder()
+     //   return true
+    //}
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        print(textFieldDidEndEditing)
+         //inputText.resignFirstResponder()
+         if textField.tag == 1 {
+            self.NumberLabel.text = inputText.text
+            self.colorView.backgroundColor = UIColor.blueColor()
 
+        }
+    }
+    
+    func textField(inputText: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        print("While entering the characters this method gets called")
+        //inputText.resignFirstResponder()
+        if inputText.tag == 1 {
+            testNumber ()
+            self.NumberLabel.text = self.viewModel.textToShow
+            self.colorView.backgroundColor = self.viewModel.colorToShow
+            
+        }
+
+        return true;
+    }
+    
     @IBAction func enterNumber(sender: UIButton) {
         
         testNumber ()
