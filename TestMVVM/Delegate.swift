@@ -3,8 +3,6 @@
 import Foundation
 import UIKit
 
-protocol Delegate {
-
+protocol Delegate : NSObjectProtocol {
     func delegateNotifyStateChanges(text : String, colour : UIColor)
-    
 }
