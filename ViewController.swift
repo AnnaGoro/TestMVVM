@@ -56,9 +56,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-   // deinit {
-   //     objectToObserve.removeObserver(self, forKeyPath: "colorToShow", context: nil)
-   // }
+   deinit {
+        viewModel.removeObserver(self, forKeyPath: "colorToShow", context: nil)
+        viewModel.removeObserver(self, forKeyPath: "textToShow", context: nil)
+    }
     
     /*
     func delegateNotifyStateChanges(text : String, colour : UIColor) {
