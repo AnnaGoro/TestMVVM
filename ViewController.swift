@@ -44,7 +44,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
    
     override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         switch keyPath {
-        case "colorToShow":  if let color = UIColor?(change?[NSKeyValueChangeNewKey] as! UIColor) {
+        case "colorToShow":
+            if let color = change?["new"] as! UIColor? {
                 colorView.backgroundColor = color
                 print("colorToShow")}
         case "textToShow" :
