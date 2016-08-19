@@ -1,27 +1,21 @@
-//
-//  ViewController.swift
-//  TestMVVM
-//
-//  Created by Ann Goro on 8/18/16.
-//  Copyright © 2016 Ann Goro. All rights reserved.
-//
+
 
 import UIKit
 
-
-class ViewController: UIViewController, UITextFieldDelegate  {
+class ViewController: UIViewController, UITextFieldDelegate, Delegate  {
 
      @IBOutlet weak var inputText: UITextField!
      @IBOutlet weak var colorView: UIView!
      @IBOutlet weak var NumberLabel:  UILabel!
    
-    private let viewModel: TestViewModel = TestViewModel()
-    
-    override func viewDidLoad() {
+     private let viewModel: TestViewModel = TestViewModel()
+   
+     override func viewDidLoad() {
         super.viewDidLoad()
         inputText.delegate = self
         inputText.tag = 1
-        /*
+        viewModel.delegateNotify = self
+     /*
       _ = NSNotificationCenter.defaultCenter().addObserverForName("Trololo",
                                          object: nil,
                                          queue: nil,
@@ -32,7 +26,9 @@ class ViewController: UIViewController, UITextFieldDelegate  {
                                             print("changing state - observer")
                                             
         })
-        */
+         
+        }
+ 
        //sign in
        viewModel.callback = { [unowned self] color, text in   //react3
             self.colorView.backgroundColor = color
@@ -41,39 +37,48 @@ class ViewController: UIViewController, UITextFieldDelegate  {
  
         testNumber()
     }
+    */
+        
+    }
     
+    func delegateNotifyStateChanges(text : String, colour : UIColor) {
+    
+       changeState ()
+    
+    }
     
     func changeState () {
       NumberLabel.text = viewModel.textToShow
       colorView.backgroundColor = viewModel.colorToShow
       print ("changeState")
         
-        
     }
     
-   // func textFieldShouldReturn(textField: UITextField) -> Bool {
-        // User finished typing (hit return): hide the keyboard.
-       // textField.resignFirstResponder()
-     //   return true
-    //}
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+         if textField.tag == 1 {
+            print ("User finished typing (hit return): hide the keyboard")
+            textField.resignFirstResponder()
+            return true
+         }
+         return false
+    }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        print(textFieldDidEndEditing)
-         //inputText.resignFirstResponder()
+        print("textFieldDidEndEditing")
          if textField.tag == 1 {
-            self.NumberLabel.text = inputText.text
-            self.colorView.backgroundColor = UIColor.blueColor()
+              testNumber ()
 
         }
     }
     
-    func textField(inputText: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+   
+    func textField (inputText : UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         print("While entering the characters this method gets called")
         //inputText.resignFirstResponder()
         if inputText.tag == 1 {
+    
             testNumber ()
-            //changeState ()
-            
+    
         }
 
         return true;
@@ -88,5 +93,5 @@ class ViewController: UIViewController, UITextFieldDelegate  {
     func testNumber () {
         viewModel.textChanged(inputText.text!)
         
-          }
+    }
 }

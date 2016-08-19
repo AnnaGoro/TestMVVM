@@ -1,10 +1,4 @@
-//
-//  TestViewModel.swift
-//  TestMVVM
-//
-//  Created by Vlad Soroka on 8/18/16.
-//  Copyright © 2016 Ann Goro. All rights reserved.
-//
+
 
 import UIKit
 
@@ -13,16 +7,18 @@ class TestViewModel {
     var colorToShow: UIColor = UIColor.blackColor()
     var textToShow: String = ""    
     var callback: ( (UIColor, String) -> Void)?
-  
-    
-   func textChanged(newText: String) {
+    var delegateNotify:Delegate?
+    //var del : UITextFieldDelegate?
+    func textChanged(newText: String) {
       
         guard let inputNumber = Int(newText) else {
             colorToShow = UIColor.blackColor()
             textToShow = "not a number"
        
-            self.callback?(colorToShow, textToShow) // alert
+          //  self.callback?(colorToShow, textToShow) // alert
           //  notify()
+            delegateNotify?.delegateNotifyStateChanges (textToShow, colour: colorToShow)
+            
             print("TestViewModel textChanged not a number")
           
             return
@@ -38,8 +34,9 @@ class TestViewModel {
             colorToShow = UIColor.redColor()  // handle
         }
        
-        self.callback?(colorToShow, textToShow) // alert
+        //self.callback?(colorToShow, textToShow) // alert
        // notify ()
+        delegateNotify?.delegateNotifyStateChanges(textToShow, colour: colorToShow)
         print("TestViewModel textChanged")
     
     }
@@ -48,7 +45,7 @@ class TestViewModel {
         
         colorToShow = UIColor.yellowColor()  // handle
         textToShow = "You shook device"
-        self.callback?(colorToShow, textToShow)
+       // self.callback?(colorToShow, textToShow)
        // notify ()
        
         
