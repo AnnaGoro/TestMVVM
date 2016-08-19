@@ -13,9 +13,7 @@ class TestViewModel {
         guard let inputNumber = Int(newText) else {
             colorToShow = UIColor.blackColor()
             textToShow = "not a number"
-            self.callback?(colorToShow, textToShow) // alert
             notify()
-            delegateNotify?.delegateNotifyStateChanges (textToShow, colour: colorToShow)
             return
         }
         
@@ -27,22 +25,20 @@ class TestViewModel {
         }else {
             colorToShow = UIColor.redColor()  // handle
         }
-       
-        self.callback?(colorToShow, textToShow) // alert
-        notify ()
-        delegateNotify?.delegateNotifyStateChanges(textToShow, colour: colorToShow)
+        notify()
     }
     
     func userShookDevice() {
         colorToShow = UIColor.yellowColor()  // handle
         textToShow = "You shook device"
-        self.callback?(colorToShow, textToShow)
-        notify ()
+        notify()
        }
     
     
-    func notify () {
+    private func notify () {
+        delegateNotify?.delegateNotifyStateChanges (textToShow, colour: colorToShow)
         NSNotificationCenter.defaultCenter().postNotificationName("Trololo", object: nil)
-    }
+        self.callback?(colorToShow, textToShow)
+   }
     
 }
