@@ -37,8 +37,8 @@ class TestViewModel {
     
     private func notify () {
         delegateNotify?.delegateNotifyStateChanges (textToShow, colour: colorToShow)
-        NSNotificationCenter.defaultCenter().postNotificationName("Trololo", object: nil)
-        self.callback?(colorToShow, textToShow)
+       // NSNotificationCenter.defaultCenter().postNotificationName("Trololo", object: nil)
+       // self.callback?(colorToShow, textToShow)
    }
     
 }
