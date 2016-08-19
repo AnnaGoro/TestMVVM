@@ -44,8 +44,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
    
     override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         switch keyPath {
-        case "colorToShow":  colorView.backgroundColor = viewModel.colorToShow; print("colorToShow")
-        case "textToShow" :  NumberLabel.text = viewModel.textToShow; print("textToShow")
+        case "colorToShow":  if let color = UIColor?(change?[NSKeyValueChangeNewKey] as! UIColor) {
+                colorView.backgroundColor = color
+                print("colorToShow")}
+        case "textToShow" :
+            if let strNumber = String?(change?[NSKeyValueChangeNewKey] as! String) {
+                NumberLabel.text = strNumber 
+                print("textToShow")}
         default: break
         }
     }
