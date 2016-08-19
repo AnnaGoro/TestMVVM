@@ -1,20 +1,31 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate, Delegate  {
+//UITextFieldDelegate, Delegate
+class ViewController: UIViewController {
 
      @IBOutlet weak var inputText: UITextField!
      @IBOutlet weak var colorView: UIView!
      @IBOutlet weak var NumberLabel:  UILabel!
      private let viewModel: TestViewModel = TestViewModel()
-   
+     private let keyPathColorToShow = "colorToShow"
+     private let keyPathTextToShow = "textToShow"
      override func viewDidLoad() {
         super.viewDidLoad()
-        inputText.delegate = self
-        inputText.tag = 1
-        viewModel.delegateNotify = self
-        inputText.addTarget(self, action: #selector(ViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+       // inputText.delegate = self
+       // viewModel.delegateNotify = self
         
+        viewModel.addObserver(self,
+                              forKeyPath: keyPathColorToShow,
+                              options: .New,
+                              context: nil)
+        viewModel.addObserver(self,
+                              forKeyPath: keyPathTextToShow,
+                              options: .New,
+                              context: nil)
+        
+        //inputText.addTarget(self, action: #selector(ViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        /*
       _ = NSNotificationCenter.defaultCenter().addObserverForName("Trololo",
                                          object: nil,
                                          queue: nil,
@@ -22,7 +33,7 @@ class ViewController: UIViewController, UITextFieldDelegate, Delegate  {
                                             self.NumberLabel.text = self.viewModel.textToShow
                                             self.colorView.backgroundColor = self.viewModel.colorToShow
         })
-        
+        */
         //sign in
        viewModel.callback = { [unowned self] color, text in   //react3
             self.colorView.backgroundColor = color
@@ -30,19 +41,27 @@ class ViewController: UIViewController, UITextFieldDelegate, Delegate  {
        }
        testNumber()
     }
-
+   
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+       print("observeValueForKeyPath")
+        changeState ()
+    }
+   
+    /*
     func delegateNotifyStateChanges(text : String, colour : UIColor) {
         changeState ()
     }
+    */
     
     func changeState () {
       NumberLabel.text = viewModel.textToShow
       colorView.backgroundColor = viewModel.colorToShow
     }
-    
+    /*
     func textFieldDidChange(textField: UITextField) {
        testNumber ()
     }
+ */
 
     @IBAction func enterNumber(sender: UIButton) {
         testNumber ()

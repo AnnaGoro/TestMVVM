@@ -2,12 +2,13 @@
 
 import UIKit
 
-class TestViewModel {
+class TestViewModel : NSObject {
     
-    var colorToShow: UIColor = UIColor.blackColor()
-    var textToShow: String = ""    
+    dynamic var colorToShow: UIColor = UIColor.blackColor()
+    dynamic  var textToShow: String = ""
     var callback: ( (UIColor, String) -> Void)?
-    weak var delegateNotify : Delegate?
+   // weak var delegateNotify : Delegate?
+    
     func textChanged(newText: String) {
       
         guard let inputNumber = Int(newText) else {
@@ -34,9 +35,10 @@ class TestViewModel {
         notify()
        }
     
+   
     
     private func notify () {
-        delegateNotify?.delegateNotifyStateChanges (textToShow, colour: colorToShow)
+       // delegateNotify?.delegateNotifyStateChanges (textToShow, colour: colorToShow)
        // NSNotificationCenter.defaultCenter().postNotificationName("Trololo", object: nil)
        // self.callback?(colorToShow, textToShow)
    }
