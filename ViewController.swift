@@ -2,7 +2,7 @@
 import UIKit
 
 //UITextFieldDelegate, Delegate
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
      @IBOutlet weak var inputText: UITextField!
      @IBOutlet weak var colorView: UIView!
@@ -24,7 +24,7 @@ class ViewController: UIViewController {
                               options: .New,
                               context: nil)
         
-        //inputText.addTarget(self, action: #selector(ViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
+        inputText.addTarget(self, action: #selector(ViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         /*
       _ = NSNotificationCenter.defaultCenter().addObserverForName("Trololo",
                                          object: nil,
@@ -44,11 +44,17 @@ class ViewController: UIViewController {
    
     override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         switch keyPath {
-        case "colorToShow": colorView.backgroundColor = viewModel.colorToShow; print("colorToShow")
+        case "colorToShow":  colorView.backgroundColor = viewModel.colorToShow; print("colorToShow")
         case "textToShow" :  NumberLabel.text = viewModel.textToShow; print("textToShow")
         default: break
         }
     }
+    
+    
+   // deinit {
+   //     objectToObserve.removeObserver(self, forKeyPath: "colorToShow", context: nil)
+   // }
+    
     /*
     func delegateNotifyStateChanges(text : String, colour : UIColor) {
         changeState ()
@@ -59,11 +65,11 @@ class ViewController: UIViewController {
       NumberLabel.text = viewModel.textToShow
       colorView.backgroundColor = viewModel.colorToShow
     }
-    /*
+    
     func textFieldDidChange(textField: UITextField) {
        testNumber ()
     }
- */
+ 
 
     @IBAction func enterNumber(sender: UIButton) {
         testNumber ()
