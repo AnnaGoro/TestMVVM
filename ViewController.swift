@@ -16,11 +16,11 @@ class ViewController: UIViewController {
        // viewModel.delegateNotify = self
         
         viewModel.addObserver(self,
-                              forKeyPath: keyPathColorToShow,
+                              forKeyPath: "colorToShow",
                               options: .New,
                               context: nil)
         viewModel.addObserver(self,
-                              forKeyPath: keyPathTextToShow,
+                              forKeyPath: "textToShow",
                               options: .New,
                               context: nil)
         
@@ -42,11 +42,13 @@ class ViewController: UIViewController {
        testNumber()
     }
    
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-       print("observeValueForKeyPath")
-        changeState ()
+    override func observeValueForKeyPath(keyPath: String!, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        switch keyPath {
+        case "colorToShow": colorView.backgroundColor = viewModel.colorToShow; print("colorToShow")
+        case "textToShow" :  NumberLabel.text = viewModel.textToShow; print("textToShow")
+        default: break
+        }
     }
-   
     /*
     func delegateNotifyStateChanges(text : String, colour : UIColor) {
         changeState ()
