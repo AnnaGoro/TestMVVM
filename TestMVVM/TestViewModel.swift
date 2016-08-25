@@ -1,46 +1,54 @@
 
 
 import UIKit
+import RxSwift
 
-class TestViewModel : NSObject {
+struct TestViewModel  {
     
-    dynamic var colorToShow: UIColor = UIColor.blackColor()
-    dynamic  var textToShow: String = ""
-    var callback: ( (UIColor, String) -> Void)?
-   // weak var delegateNotify : Delegate?
+    let colorToShow: Variable <UIColor> = Variable( UIColor.blackColor() )
+    let textToShow: Variable <String> = Variable( "" )
+
+    private let bag = DisposeBag()
     
-    func textChanged(newText: String) {
-      
-        guard let inputNumber = Int(newText) else {
-            colorToShow = UIColor.blackColor()
-            textToShow = "not a number"
-            notify()
-            return
+    var textChangedObservable: Observable<String>? {
+        didSet {
+            guard let observalbe = textChangedObservable else { return }
+            
+            let intOptionalObservalbe: Observable<Int?> =
+                observalbe.map { (text: String) -> Int? in
+                    return Int(text)
+                }
+            
+                intOptionalObservalbe
+                    .map { (maybeInt) -> String in
+                        guard let int = maybeInt else {
+                            return "not a number"
+                        }
+                        
+                        return String(int * 3)
+                    }
+                    .subscribeNext { (text) in
+                        self.textToShow.value = text
+                    }
+                    
+            intOptionalObservalbe
+                .map { (maybeInt) -> UIColor in
+                    guard let int = maybeInt else {
+                        return UIColor.blackColor()
+                    }
+                    
+                    return int % 2 == 0 ?
+                        UIColor.greenColor() :
+                        UIColor.redColor()
+                    
+                }
+                .subscribeNext { (color) in
+                    self.colorToShow.value = color
+                }
+            
         }
         
-        let number = inputNumber * 3  // handle
-        textToShow = String(number)
-        
-        if number % 2 == 0 {
-            colorToShow = UIColor.greenColor()  // handle
-        }else {
-            colorToShow = UIColor.redColor()  // handle
-        }
-        notify()
+    
     }
-    
-    func userShookDevice() {
-        colorToShow = UIColor.yellowColor()  // handle
-        textToShow = "You shook device"
-        notify()
-       }
-    
-   
-    
-    private func notify () {
-       // delegateNotify?.delegateNotifyStateChanges (textToShow, colour: colorToShow)
-       // NSNotificationCenter.defaultCenter().postNotificationName("Trololo", object: nil)
-       // self.callback?(colorToShow, textToShow)
-   }
     
 }
